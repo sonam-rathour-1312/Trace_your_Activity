@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        #heading{
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            background-color: rgb(6, 59, 66);
+            font-size: x-large;
+            padding: 5px;
+            margin-block-start: -7.7px;
+            margin-inline-start: -7.7px;
+            margin-inline-end: -7.7px;
+            height: 40px;
+            color: white;
+        }
+
+        .container{
+            text-align: center;
+            margin-top: 20px;
+            background-color: whitesmoke;
+        }
+
+        #id_title{
+            width: 50%;
+            height: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container-fluid{
+            background-color: whitesmoke;
+            text-align: right;
+            margin-top: 20px;
+            
+        }
+
+        #search {
+            width: 100px;
+            height: 30px;
+            background-color: rgb(6, 59, 66);
+            color: white;
+            border: 2px solid rgb(4, 41, 46);
+        }
+
+        .list{
+            margin-left: 2px;
+            text-align: left;
+            font-size: large;
+            font-weight: bold;
+            color: rgb(4, 41, 46);
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            color: white;
+            border: 2px solid rgb(4, 41, 46);
+            background-color: rgb(6, 59, 66);
+        }
+
+        @media only screen and (min-width:900px) {
+            .container, .container-fluid {
+                margin-left: 200px;
+                margin-right: 200px;
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+</head>
+<body>
+    <h3 id="heading">To Do List</h3>
+    
+    <div class="container">
+        <form method="POST" action="/">
+            {% csrf_token %}
+            <input type="text" name="title" maxlength="100" required="" id="id_title" placeholder="Add What To Do">
+            <button id="search" type="submit" name="Create Task">Add</button>
+        </form>
+    </div>
+
+    <div class="container-fluid">
+        <hr>
+        {% for task in tasks %}
+     {% if task.complete == True %}
+        <div class="list">
+            <strike>{{ task }}</strike>
+        </div>
+     {% else %}
+        <div class="list">
+            <span>{{ task }}</span>
+        </div>
+     {% endif %}
+     <a href="{% url 'update_task' task.id %}"><button style="margin-top: 5px;">Update</button></a>
+     <a href="{% url 'delete' task.id %}"><button style="margin: 5px 5px 0 2px;">Delete</button></a>
+     <hr>
+{% endfor %}
+    </div>
+</body>
+</html>
